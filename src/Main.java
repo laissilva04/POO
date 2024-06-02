@@ -45,6 +45,7 @@ public class Main {
             executarOpcaoCategoria(opcao);
 
         } while (opcao != 6);
+        
     }
 
     private static void exibirMenuCategoria() {
