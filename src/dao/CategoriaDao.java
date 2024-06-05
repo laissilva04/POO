@@ -18,6 +18,7 @@ public class CategoriaDao implements Dao<Categoria> {
 
     @Override
     public void cadastrar() {
+
         System.out.print("Digite o codigo: ");
         String codigo = scanner.nextLine();
 
@@ -27,25 +28,30 @@ public class CategoriaDao implements Dao<Categoria> {
         System.out.print("Digite o valor: ");
         double valor = scanner.nextDouble();
 
+        scanner.nextLine();
+
+        Categoria categoria = new Categoria(codigo, descricao, valor);
+        
         boolean validacao = true;
-        Categoria categoriaExistente = consultarPorDescricao(descricao);
+        Categoria categoriaExistente = consultarPorDescricao(categoria.getDescricao());
         if (categoriaExistente != null) {
             System.out.println("Categoria ja cadastrada com essa descricao");
             validacao = false;
         }
 
-        categoriaExistente = consultarPorCodigo(codigo);
+        categoriaExistente = consultarPorCodigo(categoria.getCodigo());
         if (categoriaExistente != null) {
             System.out.println("Categoria ja cadastrada com esse codigo");
             validacao = false;
         }
 
         if (validacao == true) {
-            try {
-                Categoria categoria = new Categoria(codigo, descricao, valor);
-                List<Categoria> item = listar();
-                item.add(categoria);
-                boolean sucesso = salvarEmArquivo(item);
+            try {//editar
+                List<Categoria> categorias = listar();
+
+                categorias.add(categoria);
+
+                boolean sucesso = salvarEmArquivo(categorias);
                 if (sucesso) {
                     System.out.println("Categoria cadastrada com sucesso!");
                 }
@@ -59,6 +65,8 @@ public class CategoriaDao implements Dao<Categoria> {
     public void consultar() {
         System.out.print("Digite o codigo: ");
         String codigo = scanner.nextLine();
+        scanner.nextLine();
+
         boolean encontrou = false;
 
         try {
@@ -109,6 +117,7 @@ public class CategoriaDao implements Dao<Categoria> {
     public void editar() {
         System.out.print("Insira o codigo da categoria a ser editada: ");
         String codigo = scanner.nextLine();
+        scanner.nextLine();
 
         Categoria categoriaExistente = consultarPorCodigo(codigo);
         try {
@@ -120,6 +129,7 @@ public class CategoriaDao implements Dao<Categoria> {
 
                 System.out.print("Digite o novo valor (atual: " + categoriaExistente.getValor() + "): ");
                 double valor = scanner.nextDouble();
+                scanner.nextLine();
 
                 categoriaExistente.setDescricao(descricao);
                 categoriaExistente.setValor(valor);
@@ -131,10 +141,9 @@ public class CategoriaDao implements Dao<Categoria> {
                         break;
                     }
                 }
-                salvarEmArquivo(categorias);
+                // salvarEmArquivo(categorias);
                 System.err.println("Categoria editada com sucesso!");
             }
-
         } catch (Exception e) {
             System.err.println("Erro ao editar categoria: " + e.getMessage());
         }
@@ -142,8 +151,9 @@ public class CategoriaDao implements Dao<Categoria> {
 
     @Override
     public void deletar() {
-        System.out.print("Insira o codigo da categoria a ser deletada: ");
+        System.out.print("digite o codigo: ");
         String codigo = scanner.nextLine();
+        scanner.nextLine();
 
         Categoria categoriaExistente = consultarPorCodigo(codigo);
         if (categoriaExistente == null) {
@@ -156,7 +166,7 @@ public class CategoriaDao implements Dao<Categoria> {
                     break;
                 }
             }
-            salvarEmArquivo(categorias);
+           salvarEmArquivo(categorias);
             System.out.print("Categoria deletada com sucesso!");
         }
     }
@@ -186,10 +196,10 @@ public class CategoriaDao implements Dao<Categoria> {
     private boolean salvarEmArquivo(List<Categoria> categorias) {
         boolean sucesso = true;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeDoArquivo))) {
-            for (Categoria categoria : categorias) {
+           for (Categoria categoria : categorias) {
                 writer.write(categoria.getCodigo() + "," + categoria.getDescricao() + "," + categoria.getValor());
                 writer.newLine();
-            }
+           }
         } catch (IOException e) {
             sucesso = false;
             System.out.println("Erro ao salvar arquivo: " + e.getMessage());

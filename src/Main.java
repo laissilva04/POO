@@ -13,13 +13,14 @@ public class Main {
         do {
             exibirMenu();
             opcao = scanner.nextInt();
+            scanner.nextLine();
             executarOpcao(opcao);
         } while (opcao != 2);
     }
 
     private static void exibirMenu() {
         System.out.println("\n--- Menu ---");
-        System.out.println("1. Categorias");
+        System.out.println("1. Categorias");    
         System.out.println("2. Sair");
         System.out.print("Escolha uma opção: ");
     }
@@ -42,8 +43,8 @@ public class Main {
         do {
             exibirMenuCategoria();
             opcao = scanner.nextInt();
+            scanner.nextLine();
             executarOpcaoCategoria(opcao);
-
         } while (opcao != 6);
         
     }
@@ -64,7 +65,7 @@ public class Main {
     private static void executarOpcaoCategoria(int opcao) {
         switch (opcao) {
             case 1:
-                 categoriaDao.cadastrar();
+                categoriaDao.cadastrar();
                 break;
             case 2:
               List<Categoria> categorias = categoriaDao.listar();
