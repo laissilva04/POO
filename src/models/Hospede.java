@@ -5,7 +5,7 @@ public class Hospede extends Pessoa{
     
     private String enderecoCompleto;
 
-    public Hospede(String endereCocompleto, String cpf, String nome, String email){
+    public Hospede(String cpf, String nome, String email, String endereCocompleto){
         super(cpf, nome, email);
         this.enderecoCompleto = endereCocompleto;
     }

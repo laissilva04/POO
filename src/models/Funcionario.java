@@ -4,7 +4,7 @@ public class Funcionario extends Pessoa{
 
     private String setor;
     
-    public Funcionario(String setor, String cpf, String nome, String email){
+    public Funcionario(String cpf, String nome, String email, String setor){
         super(cpf, nome, email);
         this.setor = setor;
     }
@@ -16,6 +16,6 @@ public class Funcionario extends Pessoa{
     }
     @Override
     public String toString(){
-        return "Funcionario{cpf='"+ getCpf()+"', nome='"+getNome() +"', email='"+ getEmail()+"', setor= '"+getSetor()+"'}";
+        return "Funcionario{cpf='"+ getCpf()+"', nome='"+getNome() +"', email='"+ getEmail()+"', setor='"+getSetor()+"'}";
     }
 }

@@ -46,7 +46,7 @@ public class CategoriaDao implements Dao<Categoria> {
         }
 
         if (validacao == true) {
-            try {//editar
+            try {
                 List<Categoria> categorias = listar();
 
                 categorias.add(categoria);
@@ -141,7 +141,7 @@ public class CategoriaDao implements Dao<Categoria> {
                         break;
                     }
                 }
-                // salvarEmArquivo(categorias);
+                 salvarEmArquivo(categorias);
                 System.err.println("Categoria editada com sucesso!");
             }
         } catch (Exception e) {

@@ -1,20 +1,22 @@
 package models;
 
+import java.sql.Date;
+
 public class Consumo extends Entidade{
     
     private Item item;
     private Reserva reserva;
     private int quantidadeSolicitada;
-    private String dataConsumo;
+    private Date dataConsumo;
 
-    public Consumo(String id, Item item, Reserva reserva, int quantidadeSolicitada, String dataConsumo){
+    public Consumo(String id, Item item, Reserva reserva, int quantidadeSolicitada, Date dataConsumo){
         super(id);
         this.item = item;
         this.reserva = reserva;
         this.quantidadeSolicitada = quantidadeSolicitada;
         this.dataConsumo = dataConsumo;
     }
-    public String getdataConsumo() {
+    public Date getdataConsumo() {
         return dataConsumo;
     }
     public Item getItem() {
@@ -26,7 +28,7 @@ public class Consumo extends Entidade{
     public Reserva getReserva() {
         return reserva;
     }
-    public void setdataConsumo(String dataConsumo) {
+    public void setdataConsumo(Date dataConsumo) {
         this.dataConsumo = dataConsumo;
     }
     public void setItem(Item item) {

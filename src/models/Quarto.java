@@ -32,7 +32,6 @@ public class Quarto extends Entidade{
     }
     @Override
     public String toString(){
-        return "Servico{codigo='"+ getCodigo()+"', categoria='"+getCategoria().toString() +"', status='"+ getStatus()+"'}";
+        return "Quarto{codigo='"+ getCodigo()+"', categoria='"+getCategoria().toString() +"', status='"+ getStatus()+"'}";
     }
-    
 }
