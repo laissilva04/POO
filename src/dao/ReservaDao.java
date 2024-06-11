@@ -138,7 +138,7 @@ public class ReservaDao implements Dao<Reserva> {
         double valorReserva = quarto.getCategoria().getValor() * diferencaDias;
 
         Reserva reserva = new Reserva(codigo, hospede, quarto, funcionario,
-                funcionario, entrada, saida, valorReserva);
+                funcionario, entrada, saida, valorReserva, 0);
 
         try {
             List<Reserva> reservas = listar();
@@ -321,19 +321,44 @@ public class ReservaDao implements Dao<Reserva> {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(",");
-                Date checkIn = null;
-                Date checkOut = null;
 
-                if(dados[8] != null) {
-                    checkIn = (Date) formatter.parse(dados[8]);
-                }
+                Date dataEntradaReserva = null;
+                Date dataSaidaReserva = null;
 
-                if(dados[9] != null) {
-                    checkOut = (Date) formatter.parse(dados[9]);
-                }
+                java.util.Date utilDateEntradaReserva = formatter.parse(dados[5]);
+                java.sql.Date sqlDateEntradaReserva = new java.sql.Date(utilDateEntradaReserva.getTime());
+                dataEntradaReserva = sqlDateEntradaReserva;
 
-                if (dados.length == 6) {
-                    Reserva reserva = new Reserva(dados[0], hospedeDao.consultarPorCpf(dados[1]), quartoDao.consultarPorCodigo(dados[2]), funcionarioDao.consultarPorCpf((dados[3])), funcionarioDao.consultarPorCpf((dados[4])), (Date) formatter.parse(dados[5]), (Date) formatter.parse(dados[6]), Double.valueOf(dados[7]), checkIn, checkOut, Double.valueOf(dados[10]));
+                java.util.Date utilDateSaidaReserva = formatter.parse(dados[6]);
+                java.sql.Date sqlDateSaidaReserva = new java.sql.Date(utilDateSaidaReserva.getTime());
+                dataSaidaReserva = sqlDateSaidaReserva;
+
+                if (dados.length == 11) {
+                    Date checkIn = null;
+                    Date checkOut = null;
+                    Reserva reserva = null;
+
+                    if(dados[9].equals("null") && dados[10].equals("null")) {
+                        reserva = new Reserva(dados[0], hospedeDao.consultarPorCpf(dados[1]), quartoDao.consultarPorCodigo(dados[2]), funcionarioDao.consultarPorCpf((dados[3])), funcionarioDao.consultarPorCpf((dados[4])), dataEntradaReserva, dataSaidaReserva, Double.valueOf(dados[7]), Double.valueOf(dados[8]));
+                    }
+
+                    if(!dados[9].equals("null") && dados[10].equals("null")) {
+                        java.util.Date utilDateCheckIn = formatter.parse(dados[9]);
+                        java.sql.Date sqlDateCheckIn = new java.sql.Date(utilDateCheckIn.getTime());
+                        checkIn = sqlDateCheckIn;
+                        reserva = new Reserva(dados[0], hospedeDao.consultarPorCpf(dados[1]), quartoDao.consultarPorCodigo(dados[2]), funcionarioDao.consultarPorCpf((dados[3])), funcionarioDao.consultarPorCpf((dados[4])), dataEntradaReserva, dataSaidaReserva, Double.valueOf(dados[7]), Double.valueOf(dados[8]), checkIn);
+                    }
+
+                    if(!dados[9].equals("null") && !dados[10].equals("null")) {
+                        java.util.Date utilDateCheckIn = formatter.parse(dados[9]);
+                        java.sql.Date sqlDateCheckIn = new java.sql.Date(utilDateCheckIn.getTime());
+                        checkIn = sqlDateCheckIn;
+                        java.util.Date utilDateCheckOut = formatter.parse(dados[10]);
+                        java.sql.Date sqlDateCheckOut = new java.sql.Date(utilDateCheckOut.getTime());
+                        checkOut = sqlDateCheckOut;
+                        reserva = new Reserva(dados[0], hospedeDao.consultarPorCpf(dados[1]), quartoDao.consultarPorCodigo(dados[2]), funcionarioDao.consultarPorCpf((dados[3])), funcionarioDao.consultarPorCpf((dados[4])), dataEntradaReserva, dataSaidaReserva, Double.valueOf(dados[7]), Double.valueOf(dados[8]), checkIn, checkOut);
+                    }
+
                     reservas.add(reserva);
                 }
             }
@@ -347,6 +372,8 @@ public class ReservaDao implements Dao<Reserva> {
         boolean sucesso = true;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeDoArquivo))) {
             for (Reserva reserva : reservas) {
+                String dataEntradaReserva = formatter.format(reserva.getDataEntradaReserva());
+                String dataSaidaReserva = formatter.format(reserva.getDataSaidaReserva());
                 String checkIn = null;
                 String checkOut = null;
                 if (reserva.getCheckIn() != null ) {
@@ -355,7 +382,7 @@ public class ReservaDao implements Dao<Reserva> {
                 if (reserva.getCheckOut() != null ) {
                     checkOut = formatter.format(reserva.getCheckOut());
                 }
-                writer.write(reserva.getCodigo() + "," + reserva.getHospede().getCpf() + "," + reserva.getQuarto().getCodigo() + "," + reserva.getFuncionarioReserva().getCpf() + "," + reserva.getFuncionarioFechamento().getCpf() + "," + reserva.getDataEntradaReserva() + "," + reserva.getDataSaidaReserva() + "," + checkIn + "," + checkOut + "," + reserva.getValorReserva() + "," + reserva.getValorPago());
+                writer.write(reserva.getCodigo() + "," + reserva.getHospede().getCpf() + "," + reserva.getQuarto().getCodigo() + "," + reserva.getFuncionarioReserva().getCpf() + "," + reserva.getFuncionarioFechamento().getCpf() + "," + dataEntradaReserva + "," + dataSaidaReserva + "," + reserva.getValorReserva() + "," + reserva.getValorPago() + "," + checkIn + "," + checkOut);
                 writer.newLine();
             }
         } catch (IOException e) {

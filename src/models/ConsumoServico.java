@@ -1,21 +1,22 @@
 package models;
 
+import java.sql.Date;
 
 public class ConsumoServico extends Entidade{
     
     private Servico servico;
     private Reserva reserva;
     private int quantidadeSolicitada;
-    private String dataConsumo;
+    private Date dataConsumo;
     
-    public ConsumoServico(String id, Servico servico, Reserva reserva, int quantidadeSolicitada, String dataConsumo){
+    public ConsumoServico(String id, Servico servico, Reserva reserva, int quantidadeSolicitada, Date dataConsumo){
         super(id);
         this.servico = servico;
         this.reserva = reserva;
         this.quantidadeSolicitada = quantidadeSolicitada;
         this.dataConsumo = dataConsumo;
     }
-    public String getDataConsumo() {
+    public Date getDataConsumo() {
         return dataConsumo;
     }
     public int getQuantidadeSolicitada() {
@@ -27,7 +28,7 @@ public class ConsumoServico extends Entidade{
     public Servico getServico() {
         return servico;
     }
-    public void setDataConsumo(String dataConsumo) {
+    public void setDataConsumo(Date dataConsumo) {
         this.dataConsumo = dataConsumo;
     }
     public void setQuantidadeSolicitada(int quantidadeSolicitada) {
@@ -40,6 +41,14 @@ public class ConsumoServico extends Entidade{
         this.servico = servico;
     }
 
+    @Override
+    public String getId() {
+        return super.getId();
+    }
+    @Override
+    public void setId(String id) {
+        super.setId(id);
+    }
     @Override
     public String toString(){
         return "ConsumoServico{id='"+getId()+"'servico='"+getServico().toString()+"', reserva='"+getReserva().toString()+"', quantidadeSolicitada='"+getQuantidadeSolicitada()+"', dataConsumo='"+getDataConsumo()+"'}";

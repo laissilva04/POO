@@ -16,7 +16,8 @@ public class Reserva extends Entidade {
     private double valorPago;
 
     public Reserva(String codigo, Hospede hospede, Quarto quarto, Funcionario funcionarioReserva,
-            Funcionario funcionarioFechamento, Date dataEntradaReserva, Date dataSaidaReserva, double valorReserva) {
+            Funcionario funcionarioFechamento, Date dataEntradaReserva, Date dataSaidaReserva, double valorReserva,
+            double valorPago) {
         super(codigo);
         this.hospede = hospede;
         this.quarto = quarto;
@@ -25,12 +26,27 @@ public class Reserva extends Entidade {
         this.dataEntradaReserva = dataEntradaReserva;
         this.dataSaidaReserva = dataSaidaReserva;
         this.valorReserva = valorReserva;
+        this.valorPago = valorPago;
     }
 
     public Reserva(String codigo, Hospede hospede, Quarto quarto, Funcionario funcionarioReserva,
             Funcionario funcionarioFechamento, Date dataEntradaReserva, Date dataSaidaReserva, double valorReserva,
-            Date checkIn, Date checkOut,
-            double valorPago) {
+            double valorPago, Date checkIn) {
+        super(codigo);
+        this.hospede = hospede;
+        this.quarto = quarto;
+        this.funcionarioReserva = funcionarioReserva;
+        this.funcionarioFechamento = funcionarioFechamento;
+        this.dataEntradaReserva = dataEntradaReserva;
+        this.dataSaidaReserva = dataSaidaReserva;
+        this.valorReserva = valorReserva;
+        this.valorPago = valorPago;
+        this.checkIn = checkIn;
+    }
+
+    public Reserva(String codigo, Hospede hospede, Quarto quarto, Funcionario funcionarioReserva,
+            Funcionario funcionarioFechamento, Date dataEntradaReserva, Date dataSaidaReserva, double valorReserva,
+            double valorPago, Date checkIn, Date checkOut) {
         super(codigo);
         this.hospede = hospede;
         this.quarto = quarto;

@@ -9,12 +9,14 @@ import dao.HospedeDao;
 import dao.ItemDao;
 import dao.QuartoDao;
 import dao.ReservaDao;
+import dao.ServicoDao;
 import models.Categoria;
 import models.Funcionario;
 import models.Hospede;
 import models.Item;
 import models.Quarto;
 import models.Reserva;
+import models.Servico;
 import models.CategoriaItem;
 import models.Consumo;
 
@@ -28,6 +30,7 @@ public class Main {
     private static ReservaDao reservaDao = new ReservaDao();
     private static ItemDao itemDao = new ItemDao();
     private static ConsumoDao consumoDao = new ConsumoDao();
+    private static ServicoDao servicoDao = new ServicoDao();
 
     public static void main(String[] args) {
         int opcao;
@@ -42,14 +45,15 @@ public class Main {
     private static void exibirMenu() {
         System.out.println("\n--- Menu ---");
         System.out.println("1. Categorias");
-        System.out.println("2. Funcionarios");  
+        System.out.println("2. Funcionarios");
         System.out.println("3. Quartos");
         System.out.println("4. Hospedes");
         System.out.println("5. Item");
         System.out.println("6. Categoria item");
         System.out.println("7. Reservas");
         System.out.println("8. Consumos");
-        System.out.println("9. Sair");
+        System.out.println("9. Servicos");
+        System.out.println("10. Sair");
         System.out.print("Escolha uma opção: ");
     }
 
@@ -64,7 +68,7 @@ public class Main {
             case 3:
                 executarQuarto();
                 break;
-            case 4: 
+            case 4:
                 executarHospede();
                 break;
             case 5:
@@ -80,6 +84,8 @@ public class Main {
                 executarConsumo();
                 break;
             case 9:
+                executarServico();
+            case 10:
                 System.out.println("Saindo...");
                 break;
             default:
@@ -115,19 +121,19 @@ public class Main {
                 categoriaDao.cadastrar();
                 break;
             case 2:
-              List<Categoria> categorias = categoriaDao.listar();
-              if(categorias.isEmpty()){
-                System.out.println("Nenhuma categoria cadastrada");
-              } else {
-                for(Categoria categoria : categorias){
-                    System.out.println(categoria);
+                List<Categoria> categorias = categoriaDao.listar();
+                if (categorias.isEmpty()) {
+                    System.out.println("Nenhuma categoria cadastrada");
+                } else {
+                    for (Categoria categoria : categorias) {
+                        System.out.println(categoria);
+                    }
                 }
-              }
                 break;
-            case 3: 
+            case 3:
                 categoriaDao.editar();
                 break;
-            case 4: 
+            case 4:
                 categoriaDao.consultar();
                 break;
             case 5:
@@ -141,7 +147,7 @@ public class Main {
         }
     }
 
-    private static void executarFuncionario(){
+    private static void executarFuncionario() {
         int opcao;
         do {
             exibirMenuFuncionario();
@@ -151,7 +157,7 @@ public class Main {
         } while (opcao != 6);
     }
 
-    private static void exibirMenuFuncionario(){
+    private static void exibirMenuFuncionario() {
         System.out.println("\n--- Menu Funcionario ---");
         System.out.println("1. Cadastrar funcionario");
         System.out.println("2. Listar funcionarios");
@@ -168,19 +174,19 @@ public class Main {
                 funcionarioDao.cadastrar();
                 break;
             case 2:
-              List<Funcionario> funcionarios = funcionarioDao.listar();
-              if(funcionarios.isEmpty()){
-                System.out.println("Nenhuma funcionario cadastrada");
-              } else {
-                for(Funcionario funcionario : funcionarios){
-                    System.out.println(funcionario);
+                List<Funcionario> funcionarios = funcionarioDao.listar();
+                if (funcionarios.isEmpty()) {
+                    System.out.println("Nenhuma funcionario cadastrada");
+                } else {
+                    for (Funcionario funcionario : funcionarios) {
+                        System.out.println(funcionario);
+                    }
                 }
-              }
                 break;
-            case 3: 
+            case 3:
                 funcionarioDao.editar();
                 break;
-            case 4: 
+            case 4:
                 funcionarioDao.consultar();
                 break;
             case 5:
@@ -194,7 +200,7 @@ public class Main {
         }
     }
 
-    private static void executarQuarto(){
+    private static void executarQuarto() {
         int opcao;
         do {
             exibirMenuQuarto();
@@ -204,7 +210,7 @@ public class Main {
         } while (opcao != 6);
     }
 
-    private static void exibirMenuQuarto(){
+    private static void exibirMenuQuarto() {
         System.out.println("\n--- Menu Quarto ---");
         System.out.println("1. Cadastrar quarto");
         System.out.println("2. Listar quartos");
@@ -221,19 +227,19 @@ public class Main {
                 quartoDao.cadastrar();
                 break;
             case 2:
-              List<Quarto> quartos = quartoDao.listar();
-              if(quartos.isEmpty()){
-                System.out.println("Nenhuma quarto cadastrado");
-              } else {
-                for(Quarto quarto : quartos){
-                    System.out.println(quartos);
+                List<Quarto> quartos = quartoDao.listar();
+                if (quartos.isEmpty()) {
+                    System.out.println("Nenhuma quarto cadastrado");
+                } else {
+                    for (Quarto quarto : quartos) {
+                        System.out.println(quarto);
+                    }
                 }
-              }
                 break;
-            case 3: 
+            case 3:
                 funcionarioDao.editar();
                 break;
-            case 4: 
+            case 4:
                 funcionarioDao.consultar();
                 break;
             case 5:
@@ -247,8 +253,7 @@ public class Main {
         }
     }
 
-
-    private static void executarHospede(){
+    private static void executarHospede() {
         int opcao;
         do {
             exibirMenuHospede();
@@ -258,7 +263,7 @@ public class Main {
         } while (opcao != 6);
     }
 
-    private static void exibirMenuHospede(){
+    private static void exibirMenuHospede() {
         System.out.println("\n--- Menu Hospede ---");
         System.out.println("1. Cadastrar hospede");
         System.out.println("2. Listar hospedes");
@@ -275,19 +280,19 @@ public class Main {
                 hospedeDao.cadastrar();
                 break;
             case 2:
-              List<Hospede> hospedes = hospedeDao.listar();
-              if(hospedes.isEmpty()){
-                System.out.println("Nenhuma quarto cadastrado");
-              } else {
-                for(Hospede hospede : hospedes){
-                    System.out.println(hospedes);
+                List<Hospede> hospedes = hospedeDao.listar();
+                if (hospedes.isEmpty()) {
+                    System.out.println("Nenhuma quarto cadastrado");
+                } else {
+                    for (Hospede hospede : hospedes) {
+                        System.out.println(hospede);
+                    }
                 }
-              }
                 break;
-            case 3: 
+            case 3:
                 hospedeDao.editar();
                 break;
-            case 4: 
+            case 4:
                 hospedeDao.consultar();
                 break;
             case 5:
@@ -301,7 +306,7 @@ public class Main {
         }
     }
 
-    private static void executarCategoriaItem(){
+    private static void executarCategoriaItem() {
         int opcao;
         do {
             exibirMenuCategoriaItem();
@@ -311,7 +316,7 @@ public class Main {
         } while (opcao != 6);
     }
 
-    private static void exibirMenuCategoriaItem(){
+    private static void exibirMenuCategoriaItem() {
         System.out.println("\n--- Menu Categoria Item ---");
         System.out.println("1. Cadastrar categoria Item");
         System.out.println("2. Listar categorias itens");
@@ -328,19 +333,19 @@ public class Main {
                 categoriaItemDao.cadastrar();
                 break;
             case 2:
-              List<CategoriaItem> categoriaItens = categoriaItemDao.listar();
-              if(categoriaItens.isEmpty()){
-                System.out.println("Nenhuma categoria item cadastrada");
-              } else {
-                for(CategoriaItem categoriaItem : categoriaItens){
-                    System.out.println(categoriaItens);
+                List<CategoriaItem> categoriaItens = categoriaItemDao.listar();
+                if (categoriaItens.isEmpty()) {
+                    System.out.println("Nenhuma categoria item cadastrada");
+                } else {
+                    for (CategoriaItem categoriaItem : categoriaItens) {
+                        System.out.println(categoriaItem);
+                    }
                 }
-              }
                 break;
-            case 3: 
+            case 3:
                 categoriaItemDao.editar();
                 break;
-            case 4: 
+            case 4:
                 categoriaItemDao.consultar();
                 break;
             case 5:
@@ -354,7 +359,7 @@ public class Main {
         }
     }
 
-    private static void executarItem(){
+    private static void executarItem() {
         int opcao;
         do {
             exibirMenuItem();
@@ -364,7 +369,7 @@ public class Main {
         } while (opcao != 6);
     }
 
-    private static void exibirMenuItem(){
+    private static void exibirMenuItem() {
         System.out.println("\n--- Menu Item ---");
         System.out.println("1. Cadastrar Item");
         System.out.println("2. Listar itens");
@@ -381,19 +386,19 @@ public class Main {
                 itemDao.cadastrar();
                 break;
             case 2:
-              List<Item> itens = itemDao.listar();
-              if(itens.isEmpty()){
-                System.out.println("Nenhum item cadastrado");
-              } else {
-                for(Item item : itens){
-                    System.out.println(itens);
+                List<Item> itens = itemDao.listar();
+                if (itens.isEmpty()) {
+                    System.out.println("Nenhum item cadastrado");
+                } else {
+                    for (Item item : itens) {
+                        System.out.println(item);
+                    }
                 }
-              }
                 break;
-            case 3: 
+            case 3:
                 itemDao.editar();
                 break;
-            case 4: 
+            case 4:
                 itemDao.consultar();
                 break;
             case 5:
@@ -407,7 +412,7 @@ public class Main {
         }
     }
 
-    private static void executarReserva(){
+    private static void executarReserva() {
         int opcao;
         do {
             exibirMenuReserva();
@@ -417,7 +422,7 @@ public class Main {
         } while (opcao != 5);
     }
 
-    private static void exibirMenuReserva(){
+    private static void exibirMenuReserva() {
         System.out.println("\n--- Menu Reserva ---");
         System.out.println("1. Cadastrar reserva");
         System.out.println("2. Listar reservas");
@@ -433,19 +438,19 @@ public class Main {
                 reservaDao.cadastrar();
                 break;
             case 2:
-              List<Reserva> reservas = reservaDao.listar();
-              if(reservas.isEmpty()){
-                System.out.println("Nenhuma reserva cadastrado");
-              } else {
-                for(Reserva reserva : reservas){
-                    System.out.println(reservas);
+                List<Reserva> reservas = reservaDao.listar();
+                if (reservas.isEmpty()) {
+                    System.out.println("Nenhuma reserva cadastrado");
+                } else {
+                    for (Reserva reserva : reservas) {
+                        System.out.println(reserva);
+                    }
                 }
-              }
                 break;
-            case 3: 
-                 reservaDao.editar();
+            case 3:
+                reservaDao.editar();
                 break;
-            case 4: 
+            case 4:
                 reservaDao.consultar();
                 break;
             case 5:
@@ -456,7 +461,7 @@ public class Main {
         }
     }
 
-    private static void executarConsumo(){
+    private static void executarConsumo() {
         int opcao;
         do {
             exibirMenuConsumo();
@@ -466,7 +471,7 @@ public class Main {
         } while (opcao != 5);
     }
 
-    private static void exibirMenuConsumo(){
+    private static void exibirMenuConsumo() {
         System.out.println("\n--- Menu Consumo ---");
         System.out.println("1. Cadastrar consumo");
         System.out.println("2. Listar consumos");
@@ -482,20 +487,69 @@ public class Main {
                 consumoDao.cadastrar();
                 break;
             case 2:
-              List<Consumo> consumos = consumoDao.listar();
-              if(consumos.isEmpty()){
-                System.out.println("Nenhum consumo cadastrado");
-              } else {
-                for(Consumo consumo : consumos){
-                    System.out.println(consumos);
+                List<Consumo> consumos = consumoDao.listar();
+                if (consumos.isEmpty()) {
+                    System.out.println("Nenhum consumo cadastrado");
+                } else {
+                    for (Consumo consumo : consumos) {
+                        System.out.println(consumo);
+                    }
                 }
-              }
                 break;
-            case 3: 
+            case 3:
                 consumoDao.editar();
                 break;
-            case 4: 
+            case 4:
                 consumoDao.consultar();
+                break;
+            case 5:
+                System.out.println("Voltando...");
+                break;
+            default:
+                System.out.println("Opção inválida! Tente novamente.");
+        }
+    }
+
+    private static void executarServico() {
+        int opcao;
+        do {
+            exibirMenuServico();
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+            executarOpcaoServico(opcao);
+        } while (opcao != 5);
+    }
+
+    private static void exibirMenuServico() {
+        System.out.println("\n--- Menu Servico ---");
+        System.out.println("1. Cadastrar servico");
+        System.out.println("2. Listar servicos");
+        System.err.println("3. Editar servico");
+        System.out.println("4. Consultar servico");
+        System.out.println("5. Voltar");
+        System.out.print("Escolha uma opção: ");
+    }
+
+    private static void executarOpcaoServico(int opcao) {
+        switch (opcao) {
+            case 1:
+                servicoDao.cadastrar();
+                break;
+            case 2:
+                List<Servico> servicos = servicoDao.listar();
+                if (servicos.isEmpty()) {
+                    System.out.println("Nenhum servico cadastrado");
+                } else {
+                    for (Servico servico : servicos) {
+                        System.out.println(servico);
+                    }
+                }
+                break;
+            case 3:
+                servicoDao.editar();
+                break;
+            case 4:
+                servicoDao.consultar();
                 break;
             case 5:
                 System.out.println("Voltando...");

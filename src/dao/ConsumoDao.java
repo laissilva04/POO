@@ -245,12 +245,18 @@ public class ConsumoDao implements Dao<Consumo> {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
+                Date dataConsumo = null;
                 String[] dados = linha.split(",");
+
+                java.util.Date utilDateConsumo = formatter.parse(dados[4]);
+                java.sql.Date sqlDateConsumo = new java.sql.Date(utilDateConsumo.getTime());
+                dataConsumo = sqlDateConsumo;
+
                 if (dados.length == 5) {
 
                     Consumo consumo = new Consumo(dados[0], itemDao.consultarPorCodigo(dados[1]),
                             reservaDao.consultarPorCodigo(dados[2]), Integer.valueOf(dados[3]),
-                            (Date) formatter.parse(dados[4]));
+                            dataConsumo);
                     consumos.add(consumo);
                 }
             }
@@ -264,8 +270,9 @@ public class ConsumoDao implements Dao<Consumo> {
         boolean sucesso = true;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeDoArquivo))) {
             for (Consumo consumo : consumos) {
-                writer.write(consumo.getId() + "," + consumo.getItem() + "," + consumo.getReserva() + ","
-                        + consumo.getQuantidadeSolicitada() + "," + consumo.getdataConsumo());
+                String dataConsumo = formatter.format(consumo.getdataConsumo());
+                writer.write(consumo.getId() + "," + consumo.getItem().getCodigo() + "," + consumo.getReserva().getCodigo() + ","
+                        + consumo.getQuantidadeSolicitada() + "," + dataConsumo);
                 writer.newLine();
             }
         } catch (IOException e) {
