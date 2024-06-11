@@ -3,16 +3,20 @@ import java.util.Scanner;
 
 import dao.CategoriaDao;
 import dao.CategoriaItemDao;
+import dao.ConsumoDao;
 import dao.FuncionarioDao;
 import dao.HospedeDao;
 import dao.ItemDao;
 import dao.QuartoDao;
+import dao.ReservaDao;
 import models.Categoria;
 import models.Funcionario;
 import models.Hospede;
 import models.Item;
 import models.Quarto;
+import models.Reserva;
 import models.CategoriaItem;
+import models.Consumo;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
@@ -21,7 +25,9 @@ public class Main {
     private static QuartoDao quartoDao = new QuartoDao();
     private static HospedeDao hospedeDao = new HospedeDao();
     private static CategoriaItemDao categoriaItemDao = new CategoriaItemDao();
+    private static ReservaDao reservaDao = new ReservaDao();
     private static ItemDao itemDao = new ItemDao();
+    private static ConsumoDao consumoDao = new ConsumoDao();
 
     public static void main(String[] args) {
         int opcao;
@@ -41,7 +47,9 @@ public class Main {
         System.out.println("4. Hospedes");
         System.out.println("5. Item");
         System.out.println("6. Categoria item");
-        System.out.println("7. Sair");
+        System.out.println("7. Reservas");
+        System.out.println("8. Consumos");
+        System.out.println("9. Sair");
         System.out.print("Escolha uma opção: ");
     }
 
@@ -66,6 +74,12 @@ public class Main {
                 executarCategoriaItem();
                 break;
             case 7:
+                executarReserva();
+                break;
+            case 8:
+                executarConsumo();
+                break;
+            case 9:
                 System.out.println("Saindo...");
                 break;
             default:
@@ -386,6 +400,104 @@ public class Main {
                 itemDao.deletar();
                 break;
             case 6:
+                System.out.println("Voltando...");
+                break;
+            default:
+                System.out.println("Opção inválida! Tente novamente.");
+        }
+    }
+
+    private static void executarReserva(){
+        int opcao;
+        do {
+            exibirMenuReserva();
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+            executarOpcaoReserva(opcao);
+        } while (opcao != 5);
+    }
+
+    private static void exibirMenuReserva(){
+        System.out.println("\n--- Menu Reserva ---");
+        System.out.println("1. Cadastrar reserva");
+        System.out.println("2. Listar reservas");
+        System.err.println("3. Editar reserva");
+        System.out.println("4. Consultar reserva");
+        System.out.println("5. Voltar");
+        System.out.print("Escolha uma opção: ");
+    }
+
+    private static void executarOpcaoReserva(int opcao) {
+        switch (opcao) {
+            case 1:
+                reservaDao.cadastrar();
+                break;
+            case 2:
+              List<Reserva> reservas = reservaDao.listar();
+              if(reservas.isEmpty()){
+                System.out.println("Nenhuma reserva cadastrado");
+              } else {
+                for(Reserva reserva : reservas){
+                    System.out.println(reservas);
+                }
+              }
+                break;
+            case 3: 
+                 reservaDao.editar();
+                break;
+            case 4: 
+                reservaDao.consultar();
+                break;
+            case 5:
+                System.out.println("Voltando...");
+                break;
+            default:
+                System.out.println("Opção inválida! Tente novamente.");
+        }
+    }
+
+    private static void executarConsumo(){
+        int opcao;
+        do {
+            exibirMenuConsumo();
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+            executarOpcaoConsumo(opcao);
+        } while (opcao != 5);
+    }
+
+    private static void exibirMenuConsumo(){
+        System.out.println("\n--- Menu Consumo ---");
+        System.out.println("1. Cadastrar consumo");
+        System.out.println("2. Listar consumos");
+        System.err.println("3. Editar consumo");
+        System.out.println("4. Consultar consumo");
+        System.out.println("5. Voltar");
+        System.out.print("Escolha uma opção: ");
+    }
+
+    private static void executarOpcaoConsumo(int opcao) {
+        switch (opcao) {
+            case 1:
+                consumoDao.cadastrar();
+                break;
+            case 2:
+              List<Consumo> consumos = consumoDao.listar();
+              if(consumos.isEmpty()){
+                System.out.println("Nenhum consumo cadastrado");
+              } else {
+                for(Consumo consumo : consumos){
+                    System.out.println(consumos);
+                }
+              }
+                break;
+            case 3: 
+                consumoDao.editar();
+                break;
+            case 4: 
+                consumoDao.consultar();
+                break;
+            case 5:
                 System.out.println("Voltando...");
                 break;
             default:

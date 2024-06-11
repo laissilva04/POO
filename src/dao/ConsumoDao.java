@@ -13,11 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 import models.Consumo;
 import models.Item;
 import models.Reserva;
-
 
 public class ConsumoDao implements Dao<Consumo> {
     private final String nomeDoArquivo = "src/txt/consumos.txt";
@@ -40,6 +38,7 @@ public class ConsumoDao implements Dao<Consumo> {
 
             if (itens.isEmpty()) {
                 System.out.println("Nenhum item cadastrado");
+                return;
             } else {
                 for (Item it : itens) {
                     System.out.println(it);
@@ -63,6 +62,7 @@ public class ConsumoDao implements Dao<Consumo> {
 
             if (reservas.isEmpty()) {
                 System.out.println("Nenhuma reserva cadastrada");
+                return;
             } else {
                 for (Reserva res : reservas) {
                     System.out.println(res);
@@ -74,8 +74,44 @@ public class ConsumoDao implements Dao<Consumo> {
             reserva = reservaDao.consultarPorCodigo(reservaCodigo);
 
             if (reserva == null) {
-                System.out.println("Reserva não encontrada, por favor digite uma categoria valida");
+                System.out.println("Reserva não encontrada, por favor digite uma reserva valida");
             }
+        }
+
+        System.out.print("Digite a quantidade: ");
+        int quantidade = scanner.nextInt();
+        scanner.nextLine();
+
+        Date dataConsumo = null;
+
+        while (dataConsumo == null) {
+            System.out.print("Digite a data de consumo no formato dd/MM/yyyy: ");
+            String entradaString = scanner.nextLine();
+            try {
+                dataConsumo = new Date(formatter.parse(entradaString).getTime());
+            } catch (ParseException e) {
+                System.out.println("Formato de data inválido. Por favor, use o formato dd/MM/yyyy.");
+            }
+        }
+
+        Consumo consumo = new Consumo(codigo, item, reserva, quantidade, dataConsumo);
+
+        Consumo consumoExistente = consultarPorCodigo(consumo.getId());
+
+        if (consumoExistente != null) {
+            System.out.println("Consumo já cadastrado com esse codigo.");
+            return;
+        }
+
+        try {
+            List<Consumo> consumos = listar();
+            consumos.add(consumo);
+            boolean sucesso = salvarEmArquivo(consumos);
+            if (sucesso) {
+                System.out.println("Consumo cadastrado com sucesso!");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao cadastrar consumo: " + e.getMessage());
         }
     }
 
@@ -161,7 +197,7 @@ public class ConsumoDao implements Dao<Consumo> {
 
             if (reservas.isEmpty()) {
                 System.out.println("Nenhuma reserva cadastrada");
-                return; 
+                return;
             } else {
                 for (Reserva res : reservas) {
                     System.out.println(res);
@@ -212,7 +248,9 @@ public class ConsumoDao implements Dao<Consumo> {
                 String[] dados = linha.split(",");
                 if (dados.length == 5) {
 
-                    Consumo consumo = new Consumo(dados[0], itemDao.consultarPorCodigo(dados[1]), reservaDao.consultarPorCodigo(dados[2]), Integer.valueOf(dados[3]), (Date) formatter.parse(dados[4]));
+                    Consumo consumo = new Consumo(dados[0], itemDao.consultarPorCodigo(dados[1]),
+                            reservaDao.consultarPorCodigo(dados[2]), Integer.valueOf(dados[3]),
+                            (Date) formatter.parse(dados[4]));
                     consumos.add(consumo);
                 }
             }

@@ -110,25 +110,27 @@ public class ReservaDao implements Dao<Reserva> {
             System.out.println("Digite a data da entrada da reserva no formato dd/MM/yyyy: ");
             String entradaString = scanner.nextLine();
             try {
-                entrada = (Date) formatter.parse(entradaString);
-            } catch (DateTimeParseException | ParseException e) {
+                java.util.Date utilDate = formatter.parse(entradaString);
+                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                entrada = sqlDate;
+            } catch (ParseException e) {
                 entrada = null;
                 System.out.println("Formato de data inválido. Por favor, use o formato dd/MM/yyyy.");
             }
+
         }
 
         Date saida = null;
 
-        while (saida == null) {
-            System.out.println("Digite a data da saíde da reserva no formato dd/MM/yyyy: ");
-            String saidaString = scanner.nextLine();
-
-            try {
-                saida = (Date) formatter.parse(saidaString);
-            } catch (DateTimeParseException | ParseException e) {
-                saida = null;
-                System.out.println("Formato de data inválido. Por favor, use o formato dd/MM/yyyy.");
-            }
+        System.out.println("Digite a data de saida da reserva no formato dd/MM/yyyy: ");
+        String saidaString = scanner.nextLine();
+        try {
+            java.util.Date utilDate = formatter.parse(saidaString);
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            saida = sqlDate;
+        } catch (ParseException e) {
+            saida = null;
+            System.out.println("Formato de data inválido. Por favor, use o formato dd/MM/yyyy.");
         }
 
         long diferencaMillis = Math.abs(saida.getTime() - entrada.getTime());
@@ -319,8 +321,19 @@ public class ReservaDao implements Dao<Reserva> {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(",");
+                Date checkIn = null;
+                Date checkOut = null;
+
+                if(dados[8] != null) {
+                    checkIn = (Date) formatter.parse(dados[8]);
+                }
+
+                if(dados[9] != null) {
+                    checkOut = (Date) formatter.parse(dados[9]);
+                }
+
                 if (dados.length == 6) {
-                    Reserva reserva = new Reserva(dados[0], hospedeDao.consultarPorCpf(dados[1]), quartoDao.consultarPorCodigo(dados[2]), funcionarioDao.consultarPorCpf((dados[3])), funcionarioDao.consultarPorCpf((dados[4])), (Date) formatter.parse(dados[5]), (Date) formatter.parse(dados[6]), Double.valueOf(dados[7]), (Date) formatter.parse(dados[8]), (Date) formatter.parse(dados[9]), Double.valueOf(dados[10]));
+                    Reserva reserva = new Reserva(dados[0], hospedeDao.consultarPorCpf(dados[1]), quartoDao.consultarPorCodigo(dados[2]), funcionarioDao.consultarPorCpf((dados[3])), funcionarioDao.consultarPorCpf((dados[4])), (Date) formatter.parse(dados[5]), (Date) formatter.parse(dados[6]), Double.valueOf(dados[7]), checkIn, checkOut, Double.valueOf(dados[10]));
                     reservas.add(reserva);
                 }
             }
@@ -334,7 +347,15 @@ public class ReservaDao implements Dao<Reserva> {
         boolean sucesso = true;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeDoArquivo))) {
             for (Reserva reserva : reservas) {
-                writer.write(reserva.getCodigo() + "," + reserva.getHospede().getCpf() + "," + reserva.getQuarto().getCodigo() + "," + reserva.getFuncionarioReserva().getCpf() + "," + reserva.getFuncionarioFechamento().getCpf() + "," + reserva.getDataEntradaReserva() + "," + reserva.getDataSaidaReserva() + "," + reserva.getCheckIn() + "," + reserva.getCheckOut() + "," + reserva.getValorReserva() + "," + reserva.getValorPago());
+                String checkIn = null;
+                String checkOut = null;
+                if (reserva.getCheckIn() != null ) {
+                    checkIn = formatter.format(reserva.getCheckIn());
+                }
+                if (reserva.getCheckOut() != null ) {
+                    checkOut = formatter.format(reserva.getCheckOut());
+                }
+                writer.write(reserva.getCodigo() + "," + reserva.getHospede().getCpf() + "," + reserva.getQuarto().getCodigo() + "," + reserva.getFuncionarioReserva().getCpf() + "," + reserva.getFuncionarioFechamento().getCpf() + "," + reserva.getDataEntradaReserva() + "," + reserva.getDataSaidaReserva() + "," + checkIn + "," + checkOut + "," + reserva.getValorReserva() + "," + reserva.getValorPago());
                 writer.newLine();
             }
         } catch (IOException e) {
