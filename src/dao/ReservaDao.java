@@ -9,20 +9,14 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-
 import models.Hospede;
-import models.Item;
 import models.Quarto;
 import models.Reserva;
-import models.Categoria;
 import models.Funcionario;
 
 public class ReservaDao implements Dao<Reserva> {
