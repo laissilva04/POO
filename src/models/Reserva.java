@@ -16,7 +16,20 @@ public class Reserva extends Entidade {
     private double valorPago;
 
     public Reserva(String codigo, Hospede hospede, Quarto quarto, Funcionario funcionarioReserva,
-            Funcionario funcionarioFechamento, Date dataEntradaReserva, Date dataSaidaReserva, Date datacheckIn, Date checkOut, double valorReserva,
+            Funcionario funcionarioFechamento, Date dataEntradaReserva, Date dataSaidaReserva, double valorReserva) {
+        super(codigo);
+        this.hospede = hospede;
+        this.quarto = quarto;
+        this.funcionarioReserva = funcionarioReserva;
+        this.funcionarioFechamento = funcionarioFechamento;
+        this.dataEntradaReserva = dataEntradaReserva;
+        this.dataSaidaReserva = dataSaidaReserva;
+        this.valorReserva = valorReserva;
+    }
+
+    public Reserva(String codigo, Hospede hospede, Quarto quarto, Funcionario funcionarioReserva,
+            Funcionario funcionarioFechamento, Date dataEntradaReserva, Date dataSaidaReserva, double valorReserva,
+            Date checkIn, Date checkOut,
             double valorPago) {
         super(codigo);
         this.hospede = hospede;
@@ -25,9 +38,9 @@ public class Reserva extends Entidade {
         this.funcionarioFechamento = funcionarioFechamento;
         this.dataEntradaReserva = dataEntradaReserva;
         this.dataSaidaReserva = dataSaidaReserva;
+        this.valorReserva = valorReserva;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.valorReserva = valorReserva;
         this.valorPago = valorPago;
     }
 
@@ -42,15 +55,19 @@ public class Reserva extends Entidade {
     public Date getDataSaidaReserva() {
         return dataSaidaReserva;
     }
+
     public Date getCheckIn() {
         return checkIn;
     }
+
     public void setCheckIn(Date checkIn) {
         this.checkIn = checkIn;
     }
+
     public Date getCheckOut() {
         return checkOut;
     }
+
     public void setCheckOut(Date checkOut) {
         this.checkOut = checkOut;
     }
@@ -120,7 +137,8 @@ public class Reserva extends Entidade {
         return "Reserva{id='" + getId() + "'Hospede='" + getHospede().toString() + "', quarto='"
                 + getQuarto().toString() + "', funcionarioReserva='" + getFuncionarioReserva().toString()
                 + "', funcionarioFechamento='" + getFuncionarioFechamento().toString() + "', dataEntrada='"
-                + getDataEntradaReserva() + "', dataSaida='" + getDataSaidaReserva() + "', dataCheckIn='" + getCheckIn() + "', dataCheckOut='" + getCheckOut() + "', valorReserva='"
+                + getDataEntradaReserva() + "', dataSaida='" + getDataSaidaReserva() + "', dataCheckIn='" + getCheckIn()
+                + "', dataCheckOut='" + getCheckOut() + "', valorReserva='"
                 + getValorReserva() + "', valorPago='" + getValorPago() + "'}";
     }
 }
