@@ -426,7 +426,7 @@ public class Main {
             opcao = scanner.nextInt();
             scanner.nextLine();
             executarOpcaoReserva(opcao);
-        } while (opcao != 5);
+        } while (opcao != 6);
     }
 
     private static void exibirMenuReserva() {
@@ -435,7 +435,8 @@ public class Main {
         System.out.println("2. Listar reservas");
         System.err.println("3. Editar reserva");
         System.out.println("4. Consultar reserva");
-        System.out.println("5. Voltar");
+        System.out.println("5. Realizar pagamento");
+        System.out.println("6. Voltar");
         System.out.print("Escolha uma opção: ");
     }
 
@@ -461,6 +462,8 @@ public class Main {
                 reservaDao.consultar();
                 break;
             case 5:
+                reservaDao.realizarPagamento();
+            case 6:
                 System.out.println("Voltando...");
                 break;
             default:

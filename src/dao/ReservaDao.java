@@ -368,6 +368,44 @@ public class ReservaDao implements Dao<Reserva> {
         return reservas;
     }
 
+    public void realizarPagamento() {
+        System.out.print("Digite o codigo da reserva: ");
+        String codigo = scanner.nextLine();
+
+        Reserva reserva = consultarPorCodigo(codigo);
+
+        if (reserva == null) {
+            System.out.println("Reserva não encontrada.");
+            return;
+        }
+
+        System.out.print("Digite o valor do pagamento: ");
+        double valorPagamento = scanner.nextDouble();
+        scanner.nextLine(); 
+
+        reserva.setValorPago(reserva.getValorPago() + valorPagamento);
+
+        if (reserva.getValorPago() >= reserva.getValorReserva()) {
+            System.out.println("Pagamento realizado com sucesso. Reserva está livre de pendências.");
+        } else {
+            System.out.println("Pagamento parcial realizado. Ainda restam " +
+                (reserva.getValorReserva() - reserva.getValorPago()) + " a pagar.");
+        }
+
+        try {
+            List<Reserva> reservas = listar();
+            for (int i = 0; i < reservas.size(); i++) {
+                if (reservas.get(i).getCodigo().equals(reserva.getCodigo())) {
+                    reservas.set(i, reserva);
+                    break;
+                }
+            }
+            salvarEmArquivo(reservas);
+        } catch (Exception e) {
+            System.out.println("Erro ao realizar pagamento: " + e.getMessage());
+        }
+    }
+
     private boolean salvarEmArquivo(List<Reserva> reservas) {
         boolean sucesso = true;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeDoArquivo))) {
