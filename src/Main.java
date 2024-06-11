@@ -4,6 +4,7 @@ import java.util.Scanner;
 import dao.CategoriaDao;
 import dao.CategoriaItemDao;
 import dao.ConsumoDao;
+import dao.ConsumoServicoDao;
 import dao.FuncionarioDao;
 import dao.HospedeDao;
 import dao.ItemDao;
@@ -19,6 +20,7 @@ import models.Reserva;
 import models.Servico;
 import models.CategoriaItem;
 import models.Consumo;
+import models.ConsumoServico;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
@@ -31,6 +33,8 @@ public class Main {
     private static ItemDao itemDao = new ItemDao();
     private static ConsumoDao consumoDao = new ConsumoDao();
     private static ServicoDao servicoDao = new ServicoDao();
+    private static ConsumoServicoDao consumoServicoDao = new ConsumoServicoDao();
+
 
     public static void main(String[] args) {
         int opcao;
@@ -49,11 +53,12 @@ public class Main {
         System.out.println("3. Quartos");
         System.out.println("4. Hospedes");
         System.out.println("5. Item");
-        System.out.println("6. Categoria item");
+        System.out.println("6. Categoria de item");
         System.out.println("7. Reservas");
         System.out.println("8. Consumos");
         System.out.println("9. Servicos");
-        System.out.println("10. Sair");
+        System.out.println("10. Consumo de Servicos");
+        System.out.println("11. Sair");
         System.out.print("Escolha uma opção: ");
     }
 
@@ -86,6 +91,8 @@ public class Main {
             case 9:
                 executarServico();
             case 10:
+                executarConsumoServico();
+            case 11:
                 System.out.println("Saindo...");
                 break;
             default:
@@ -550,6 +557,55 @@ public class Main {
                 break;
             case 4:
                 servicoDao.consultar();
+                break;
+            case 5:
+                System.out.println("Voltando...");
+                break;
+            default:
+                System.out.println("Opção inválida! Tente novamente.");
+        }
+    }
+
+    private static void executarConsumoServico() {
+        int opcao;
+        do {
+            exibirMenuConsumoServico();
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+            executarOpcaoConsumoServico(opcao);
+        } while (opcao != 5);
+    }
+
+    private static void exibirMenuConsumoServico() {
+        System.out.println("\n--- Menu Consumo de Servico ---");
+        System.out.println("1. Cadastrar consumo de servico");
+        System.out.println("2. Listar consumo de servicos");
+        System.err.println("3. Editar consumo de servico");
+        System.out.println("4. Consultar consumo servico");
+        System.out.println("5. Voltar");
+        System.out.print("Escolha uma opção: ");
+    }
+
+    private static void executarOpcaoConsumoServico(int opcao) {
+        switch (opcao) {
+            case 1:
+                consumoServicoDao.cadastrar();
+                break;
+            case 2:
+                List<ConsumoServico> servicos = consumoServicoDao.listar();
+                if (servicos.isEmpty()) {
+                    System.out.println("Nenhum servico cadastrado");
+                } else {
+                    for (ConsumoServico servico : servicos) {
+                        System.out.println(servico);
+                    }
+                }
+                break;
+            case 3:
+                consumoServicoDao.editar();
+                break;
+            case 4:
+                consumoServicoDao.consultar();
                 break;
             case 5:
                 System.out.println("Voltando...");
