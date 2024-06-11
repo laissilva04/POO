@@ -43,7 +43,7 @@ public class Main {
             opcao = scanner.nextInt();
             scanner.nextLine();
             executarOpcao(opcao);
-        } while (opcao != 6);
+        } while (opcao != 11);
     }
 
     private static void exibirMenu() {
@@ -90,8 +90,10 @@ public class Main {
                 break;
             case 9:
                 executarServico();
+                break;
             case 10:
                 executarConsumoServico();
+                break;
             case 11:
                 System.out.println("Saindo...");
                 break;
@@ -244,13 +246,13 @@ public class Main {
                 }
                 break;
             case 3:
-                funcionarioDao.editar();
+                quartoDao.editar();
                 break;
             case 4:
-                funcionarioDao.consultar();
+                quartoDao.consultar();
                 break;
             case 5:
-                funcionarioDao.deletar();
+                quartoDao.deletar();
                 break;
             case 6:
                 System.out.println("Voltando...");
@@ -463,6 +465,7 @@ public class Main {
                 break;
             case 5:
                 reservaDao.realizarPagamento();
+                break;
             case 6:
                 System.out.println("Voltando...");
                 break;
